@@ -8,10 +8,12 @@
 > source env/bin/activate
 >
 ### install requarements
-> pip install -r requarement.txt
+> pip install -r requairement.txt
 >
 ### create postgres database
-> pasql -U postgres
+>sudo apt install postgresql-client-common
+>
+> psql -U postgres
 >
 > create database dname;
 >
