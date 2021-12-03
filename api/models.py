@@ -1,3 +1,47 @@
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
-# Create your models here.
+
+class Anket(models.Model):
+    name = models.CharField(max_length=50)
+    age = models.IntegerField()
+    description = models.TextField(max_length=2000)
+    file_unique_id = models.CharField(max_length=100)
+    sex = models.BooleanField()  # ex. true it's male, false it's female
+
+    def __str__(self):
+        return str(self.name)
+
+
+class User(models.Model):
+    id_chat = models.CharField(max_length=50)  # it's chat id from Telegram API
+    anketa = models.ForeignKey(
+        Anket, on_delete=models.CASCADE, default=1
+    )  # BIG QUESTION ABOUT DEFOULT
+
+    def __str__(self):
+        return str(self.id_chat)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="likeds"
+    )  # likers it's who submit like
+    partner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="likes"
+    )  # it's whom likers sub. like
+
+    def __str__(self) -> str:
+        return f"{self.user}:{self.partner}"
+
+
+class Match(models.Model):
+    who_like = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="creators"
+    )
+    whom_like = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="favorits"
+    )
+
+    def __str__(self) -> str:
+        return f"{self.who_like}:{self.whom_like}"
