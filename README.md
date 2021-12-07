@@ -8,7 +8,7 @@
 > source env/bin/activate
 >
 ### install requarements
-> pip install -r requairement.txt
+> pip install -r requirements.txt
 >
 ### create postgres database
 >sudo apt install postgresql-client-common

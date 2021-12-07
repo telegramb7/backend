@@ -11,6 +11,7 @@ class AnketSerializer(serializers.ModelSerializer):
             "description",
             "file_unique_id",
             "sex",
+            "user",
         )
         model = Anket
 

@@ -1,6 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
+class User(models.Model):
+    id_chat = models.CharField(max_length=50,unique=True)  # it's chat id from Telegram API
+    
+    def __str__(self):
+        return str(self.id_chat)
 
 class Anket(models.Model):
     name = models.CharField(max_length=50)
@@ -8,20 +13,10 @@ class Anket(models.Model):
     description = models.TextField(max_length=2000)
     file_unique_id = models.CharField(max_length=100)
     sex = models.BooleanField()  # ex. true it's male, false it's female
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)
-
-
-class User(models.Model):
-    id_chat = models.CharField(max_length=50)  # it's chat id from Telegram API
-    anketa = models.ForeignKey(
-        Anket, on_delete=models.CASCADE, default=1
-    )  # BIG QUESTION ABOUT DEFOULT
-
-    def __str__(self):
-        return str(self.id_chat)
-
 
 class Like(models.Model):
     user = models.ForeignKey(
