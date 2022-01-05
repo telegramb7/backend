@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import User, Anket, Like, Match
-
+from .models import User, Anket, Like, Match, Dislike
 
 class AnketSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Anket
         fields = (
             "id",
             "name",
@@ -13,33 +13,44 @@ class AnketSerializer(serializers.ModelSerializer):
             "sex",
             "user",
         )
-        model = Anket
-
+        
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Like
         fields = (
             "id",
             "user",
             "partner",
         )
-        model = Like
 
 
+class DislikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dislike
+        fields = (
+            'id',
+            'who_dislike',
+            'whom_dislike',
+        )
+
+        
 class MatchSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Match
         fields = (
             "id",
             "who_like",
             "whom_like",
         )
-        model = Match
+        
 
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
+        model = User
         fields = (
             "id",
             "id_chat",
+            "username",
         )
-        model = User
