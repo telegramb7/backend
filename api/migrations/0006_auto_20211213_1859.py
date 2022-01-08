@@ -7,18 +7,22 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0005_auto_20211207_1950'),
+        ("api", "0005_auto_20211207_1950"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='anket',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='anket', to='api.user'),
+            model_name="anket",
+            name="user",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="anket",
+                to="api.user",
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='id_chat',
+            model_name="user",
+            name="id_chat",
             field=models.CharField(max_length=50, unique=True),
         ),
     ]

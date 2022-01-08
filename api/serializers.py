@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User, Anket, Like, Match, Dislike
 
+
 class AnketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Anket
@@ -13,7 +14,7 @@ class AnketSerializer(serializers.ModelSerializer):
             "sex",
             "user",
         )
-        
+
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,12 +30,12 @@ class DislikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dislike
         fields = (
-            'id',
-            'who_dislike',
-            'whom_dislike',
+            "id",
+            "who_dislike",
+            "whom_dislike",
         )
 
-        
+
 class MatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Match
@@ -43,7 +44,6 @@ class MatchSerializer(serializers.ModelSerializer):
             "who_like",
             "whom_like",
         )
-        
 
 
 class UsersSerializer(serializers.ModelSerializer):

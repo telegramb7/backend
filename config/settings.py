@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_api_key",
-
     "api",
 ]
 
@@ -139,7 +138,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # REST
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        'rest_framework.permissions.AllowAny', ],
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination', 'PAGE_SIZE': 1,
+        # 'rest_framework.permissions.AllowAny', ],
+        "rest_framework_api_key.permissions.HasAPIKey",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 1,
 }
-
