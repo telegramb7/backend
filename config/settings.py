@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from dotenv import load_dotenv
 import os
 from pathlib import Path
+import dj_database_url
 
 load_dotenv()
 
@@ -29,7 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,14 +84,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("D_BASE"),
-        "USER": os.getenv("D_NAME"),
-        "PASSWORD": os.getenv("D_PASSWORD"),
-        "HOST": "127.0.0.1",
+        "NAME": "deplgojltg8d5u",
+        "USER": "agrkmwykmxmyrm",
+        "PASSWORD": "bae6b0c5cf1d04fab9c1a4c6037df411821909ec78e452f80926b916465cc841",
+        "HOST": "ec2-52-30-133-191.eu-west-1.compute.amazonaws.com",
         "PORT": "5432",
     }
 }
-
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -129,6 +131,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
