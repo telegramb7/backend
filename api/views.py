@@ -35,7 +35,7 @@ class UserViewSet(
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     pagination_class = PaginationApi
-    # permission_classes = [HasAPIKey]
+    permission_classes = [HasAPIKey]
 
     def get_queryset(self):
         queryset = User.objects.all()
@@ -58,7 +58,7 @@ class AnketViewSet(
     queryset = Anket.objects.all()
     serializer_class = AnketSerializer
     pagination_class = PaginationApi
-    # permission_classes = [HasAPIKey]
+    permission_classes = [HasAPIKey]
 
     def get_queryset(self):
         id_chat = self.request.query_params.get('id_chat')
@@ -95,7 +95,7 @@ class LikeViewSet(
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     pagination_class = PaginationApi
-    # permission_classes = [HasAPIKey]
+    permission_classes = [HasAPIKey]
 
     def get_queryset(self):
         queryset = Like.objects.all()
@@ -115,7 +115,7 @@ class MatchViewSet(
     queryset = Match.objects.all()
     serializer_class = MatchSerializer
     pagination_class = PaginationApi
-    # permission_classes = [HasAPIKey]
+    permission_classes = [HasAPIKey]
 
 
 class DislikeViewSet(
@@ -128,7 +128,7 @@ class DislikeViewSet(
     queryset = Dislike.objects.all()
     serializer_class = DislikeSerializer
     pagination_class = PaginationApi
-    # permission_classes = [HasAPIKey]
+    permission_classes = [HasAPIKey]
 
     def get_queryset(self):
         id_chat = self.request.query_params.get('id_chat')
