@@ -83,10 +83,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("D_BASE"),
-        "USER": os.getenv("D_NAME"),
-        "PASSWORD": os.getenv("D_PASSWORD"),
-        "HOST": os.getenv("D_HOST"),
+        "NAME": os.getenv("T_BASE"),
+        "USER": os.getenv("T_NAME"),
+        "PASSWORD": os.getenv("T_PASSWORD"),
+        "HOST": os.getenv("T_HOST"),
         "PORT": "5432",
     }
 }
@@ -139,9 +139,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # REST
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        # 'rest_framework.permissions.AllowAny', ],
-        "rest_framework_api_key.permissions.HasAPIKey",
-    ],
+        'rest_framework.permissions.AllowAny', ],
+    #     "rest_framework_api_key.permissions.HasAPIKey",
+    # ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 1,
 }
