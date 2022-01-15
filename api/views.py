@@ -1,4 +1,6 @@
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import action
 
 from .models import User, Anket, Like, Match, Dislike
 from .serializers import (
@@ -11,10 +13,12 @@ from .serializers import (
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework_api_key.permissions import HasAPIKey
+from django.db.models import Subquery, Q, OuterRef
+
 
 
 class PaginationApi(PageNumberPagination):
-    page_size = 2
+    page_size = 3
     max_page_size = 1000000
 
     def get_paginated_response(self, data):
@@ -31,7 +35,7 @@ class UserViewSet(
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     pagination_class = PaginationApi
-    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey]
 
     def get_queryset(self):
         queryset = User.objects.all()
@@ -54,14 +58,32 @@ class AnketViewSet(
     queryset = Anket.objects.all()
     serializer_class = AnketSerializer
     pagination_class = PaginationApi
-    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey]
 
     def get_queryset(self):
-        queryset = Anket.objects.all()
-        user = self.request.query_params.get("user")
-        if user is not None:
-            queryset = queryset.filter(user=user)
+        id_chat = self.request.query_params.get('id_chat')
+        user = User.objects.filter(id_chat=id_chat).first()
+        likes = Like.objects.filter(user=user)
+        dislikes = Dislike.objects.filter(who_dislike = user)
+        queryset = Anket.objects.exclude(user = user) \
+                  .exclude(Q(user__in=Subquery(likes.values('partner_id'))) | Q(user__in=Subquery(dislikes.values('whom_dislike_id'))))
         return queryset
+
+    @action(methods=['GET'], detail=False)
+    def me(self, request):
+        id_chat = int(request.data.get('id_chat'))
+        user = User.objects.filter(id_chat=id_chat).first()
+        if not user.anket:
+            return Response({"Error":" Not anket"}, status=status.HTTP_400_BAD_REQUEST)
+        anket_serializer = AnketSerializer(user.anket)
+        return Response(anket_serializer.data, status=status.HTTP_200_OK)
+
+
+        # queryset = Anket.objects.all()
+        # user = self.request.query_params.get("user")
+        # if user is not None:
+        #     queryset = queryset.filter(user=user)
+        # return queryset
 
 
 class LikeViewSet(
@@ -73,7 +95,7 @@ class LikeViewSet(
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     pagination_class = PaginationApi
-    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey]
 
     def get_queryset(self):
         queryset = Like.objects.all()
@@ -93,7 +115,7 @@ class MatchViewSet(
     queryset = Match.objects.all()
     serializer_class = MatchSerializer
     pagination_class = PaginationApi
-    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey]
 
 
 class DislikeViewSet(
@@ -106,9 +128,11 @@ class DislikeViewSet(
     queryset = Dislike.objects.all()
     serializer_class = DislikeSerializer
     pagination_class = PaginationApi
-    permission_classes = [HasAPIKey]
+    # permission_classes = [HasAPIKey]
 
     def get_queryset(self):
+        id_chat = self.request.query_params.get('id_chat')
+        user = User.objects.filter(id_chat=id_chat).first()
         queryset = Dislike.objects.all()
         who = self.request.query_params.get("who")
         whom = self.request.query_params.get("whom")
@@ -116,4 +140,6 @@ class DislikeViewSet(
             queryset = queryset.filter(who_dislike=who)
         if whom is not None:
             queryset = queryset.filter(who_dislike=who).filter(whom_dislike=whom)
+        if user is not None:
+            queryset = queryset.filter(who_dislike=user)
         return queryset
