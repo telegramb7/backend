@@ -78,9 +78,9 @@ class Match(models.Model):
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None):
-        # json_data = {'first':{"id_chat":self.who_like.id_chat,"username": self.who_like.username, "photo":self.who_like.anket.file_unique_id},
-        # 'second':{"id_chat":self.whom_like.id_chat,"username": self.whom_like.username, "photo":self.whom_like.anket.file_unique_id}}
-        # requests.post("http://127.0.0.1:5000/match", json=json_data)
+        json_data = {'first':{"id_chat":self.who_like.id_chat,"username": self.who_like.username, "photo":self.who_like.anket.file_unique_id},
+        'second':{"id_chat":self.whom_like.id_chat,"username": self.whom_like.username, "photo":self.whom_like.anket.file_unique_id}}
+        requests.post("https://familiar-bot7.herokuapp.com/match", json=json_data)
         return super().save(
             force_insert=force_insert,
             force_update=force_update,
